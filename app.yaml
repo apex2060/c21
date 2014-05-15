@@ -9,7 +9,6 @@ handlers:
   static_files: \1
   upload: .*\.html
 
-
 - url: /app
   static_dir: app
 
