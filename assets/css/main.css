@@ -4,30 +4,41 @@ html{
 }
 html,body{
 	height: 100%;
-	overflow-x:hidden;
+	overflow: hidden;
 	padding: 0px;
+	margin: 0px;
 }
-body{
-	 padding-top: 50px; 
-	/*background: url('http://www.ijreview.com/wp-content/uploads/2013/04/world.jpeg');*/
+body{ 
+	  
+	 height: 100%;
+	 margin: 0px;
+	 padding: 0px;
 }
 header {
 	position: absolute;
 	top: 0px;
 	width: 100%;
-	height: 50px;
-	background: #765;
+	height: 100px;
+	background: #000;
 	color: #FFF;
 	box-shadow: 0px 2px 2px #000;
 	z-index: 10;
 }
-header h1{
+header .logo{
+	width: 290px;
+	display: inline-block;
+	margin: 5px;
+	border: 1px double #FF0;
+	float: left;
+}
+header h1, header h2{
+	font-family: sans-serif;
+	margin: 5px;
 	text-align: center;
-	font-size: 78px;
-	color: #FFF;
-	font-weight: bold;
-	text-shadow: 0px 3px #888;
-	margin-top: 30px;
+}
+header h1{
+}
+header h2{
 }
 header .account{
 	float: right;
@@ -47,23 +58,34 @@ header .account .logout {
 	vertical-align: top;
 	color: #FFF;
 }
-
+header nav{
+    display: inline-block;
+	
+}
 header nav ul {
-	margin: 15px;
 	padding: 0px;
+	margin: 0px;
 }
 header nav ul li {
 	list-style: none;
 	display: inline-block;
-	margin: 0px 3px;
+	margin: 0px;
 }
 header nav ul li a {
-	padding: 10px;
-	color: #FFF;
-	background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png');
-	background-color: rgba(0, 0, 0, 0.7);
-	box-shadow: -5px 3px 5px #000;
+	padding: 30px;
+	color: #000;
+	/* background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png'); */
+	background-color: rgba(255, 255, 255, 0.7);
+	box-shadow: -5px 3px 5px rgba(255,255,255,.4);
 	border-radius: 3px;
+	font-weight: bold;
+	height: 80px;
+	width: 160px;
+	display: inline-block;
+	text-align: center;
+	margin: 10px 0px 0px 10px;
+	line-height: 20px;
+	font-size: 20px;
 }
 footer {
 	position: absolute;
@@ -89,26 +111,28 @@ a:hover{
 
 
 /*FLEX STUFF*/
-.wrapper {
-	min-height: 100%;
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;  
-	-webkit-flex-flow: column;
+.wrapper {  
 
-	/* margin-bottom:50px; */
 
 	font-weight: bold;
-	/* text-align: center; */
-	margin-bottom: 200px;
-	background-color: #EEE;
+	margin-bottom: 200px;  
+	margin-top: 100px;
+	
+
+
+	overflow-y: auto;
+	height: calc(100% - 100px);
+	
+
+
+	overflow-x: hidden;
+
+
 }
 aside{
 	/* background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png'); */
 	padding: 15px 0px;
-	background-color: #765;
+	background-color: #222;
 	max-width: 300px;
 	flex: 1;
 	z-index: 2;
@@ -119,13 +143,13 @@ aside h1{
 	padding: 10px;
 	border-radius: 5px;
 	color: #FFF;
-	border: 1px solid #977;
+	border: 1px solid #000;
 	width: 250px;
 	font-family: inherit;
 	text-align: center;
 	position: relative;
 	background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png');
-	background-color: #963;
+	background-color: #666;
 }
 section{
 	display: -webkit-box;
@@ -133,7 +157,7 @@ section{
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;
-	/*flex: 1;*/
+	flex: 1;
 	-webkit-flex-flow: row;
 	min-height: 100%;
 }
@@ -169,7 +193,8 @@ article {
 }
 
 article{
-	background: url('http://fc05.deviantart.net/fs71/i/2012/077/4/e/cardboard_texture_01_by_carlbert-d4t6pw9.jpg');
+	background: url('../img/land.jpg');
+	/* background-size: cover; */
 }
 #shoeboxlist .shoebox.ds-edit{
 	border: 3px solid red;
