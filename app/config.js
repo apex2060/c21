@@ -1,12 +1,12 @@
 app.factory('config', function ($rootScope, $http) {
 	var config = {
-		fireRoot: 			'https://shoeboxed.firebaseio.com/',
-		fireRef: 			new Firebase('https://shoeboxed.firebaseio.com/'),
+		fireRoot: 			'https://century21.firebaseio.com/',
+		fireRef: 			new Firebase('https://century21.firebaseio.com/'),
 		parseRoot: 			'https://api.parse.com/1/',
-	 	parseAppId: 		'Iw9DHXLzR7zp5AvEPAE45Yfksz0wHutEoPPgLnoP',
-	 	parseJsKey: 		'pNULiL0dewElGqCVQsRMYDWsjMSY1nrCDnXyPXqB',
-	 	parseRestApiKey: 	'4PAokBweya2d7ACcfAOBWImB3UEVZXxU38HJsEK3',
-	 	roles: 				['Admin','Moderator','Editor','ValidUser']
+	 	parseAppId: 		'fjNPy7AsQcDEz9woamj15jrgs9xWMOQP0TiNF0V0',
+	 	parseJsKey: 		'JdU2uRrOYZjdWBOYBvQoUENJhEIzNc60BoLh62O3',
+	 	parseRestApiKey: 	'q6xFyspsTblr7qltEFr6Pb5NHaaXarZz29Tf4BYk',
+	 	roles: 				['Admin','Broker','Agent','Editor']
 	};
 
 	Parse.initialize(config.parseAppId, config.parseJsKey);
