@@ -1,0 +1,9 @@
+<h1><a href="#/shoeboxlist">My Boxes</a></h1>
+<div class="shoeboxlist" ng-controller="ShoeBoxCtrl">
+	<ul class="list-group">
+		<li class="list-group-item" ng-repeat="shoeBox in myShoeBoxes.results" title="{{shoeBox.description}}">
+			<a href="#/shoebox/{{shoeBox.objectId}}" title="">{{shoeBox.title}}</a>
+		</li>
+		<li><a class="btn btn-success btn-block" ng-click="tools.create()">Create New Shoebox</a></li>
+	</ul>
+</div>

@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "(*sp)Starter Project": {
+            "applicationId": "XXXXXXXXXXXXXXXXXXXXXXXXXX", 
+            "masterKey": "XXXXXXXXXXXXXXXXXXXXX"
+        }, 
+        "_default": {
+            "link": "(*sp)Starter Project"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.18"
+    }
+}

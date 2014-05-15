@@ -1,0 +1,20 @@
+<div class="account">
+	<span ng-hide="user">
+		<a ng-click="tools.user.signupModal()">{{'SITE.SIGNUP' | translate}}</a> |
+		<a ng-click="tools.user.loginModal()">{{'SITE.LOGIN' | translate}}</a>
+	</span>
+	<span ng-show="user">
+		<a class="username">{{user.fullName}}</a> 
+		<a class="logout" ng-click="tools.user.logout()" class="logout"> <i class="fa fa-sign-out"></i></a>
+	</span>
+</div>
+<!-- <h1 id="siteTitle">{{'SITE.TITLE' | translate}}</h1> -->
+<nav>
+	<ul>
+		<li><a href="#/" title="">Home</a></li>
+		<li><a href="#/shoeboxlist" title="">My Boxes</a></li>
+		<li><a href="#/itemlist" title="">My Items</a></li>
+		<!-- <li><a href="#/" title="Home"><i class="fa fa-home"></i> <span>{{'SITE.NAV.HOME' | translate}}</span></a></li>
+		<li ng-show="tools.user.is('Admin')"><a ng-href="#/admin" title="Visit the Admin Console"><i class="fa fa-dashboard"></i> {{'SITE.NAV.ADMIN' | translate}}</a></li> -->
+	</ul>
+</nav>

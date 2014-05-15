@@ -1,0 +1,76 @@
+<div id="mainContent" ng-controller="ShoeBoxCtrl" class="shoeBox" ng-init="tools.initInd()">
+	<div class="row boxinformation">
+		<form role="form" ng-submit="tools.shoeBox.save(temp.currentShoeBox)">
+			<div class="col-lg-3 col-md-5">
+				<div media-manager="tools.setPicture" class="media-manager" max-width="300" max-height="200">
+					<div ng-hide="temp.currentShoeBox.picture" class="thumbnail">Add Picture</div>
+					<img id="shoeBoxImgPreview" ng-show="temp.currentShoeBox.picture" class="thumbnail" 
+					ng-class="temp.currentShoeBox.picture.class" 
+					ng-src="{{temp.currentShoeBox.picture.src}}" 
+					title="{{temp.currentShoeBox.picture.name}}">
+					<span class="clearfix" ng-show="temp.currentShoeBox.picture.temp">
+						Uploading picture... This may take a while.
+					</span>
+				</div>
+				<a class="qr" href="#/qr/{{temp.currentShoeBox.objectId}}" title="Print QR Codes">
+					<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 250)}}" alt="" class="thumbnail">
+				</a>
+				<div class="tag">
+					<div class="form-group">
+						<label>Owner</label>
+						<input type="text" class="form-control" ng-model="temp.currentShoeBox.owner" placeholder="Name of the person this belongs to.">
+					</div>
+				</div>
+				<div style="text-align:center;">
+					<button type="submit" class="btn btn-default" ng-hide="temp.currentShoeBox.picture.temp">Save Changes</button>
+					<button type="submit" class="btn btn-default" ng-show="temp.currentShoeBox.picture.temp" 
+					title="Please wait for the picture to upload before you save." disabled>Save Changes</button>
+					<button class="btn btn-danger" ng-click="tools.shoeBox.remove(temp.currentShoeBox)">Delete</button>
+				</div>
+			</div>
+			<div class="col-lg-8 col-md-6">
+				<div class="form-group">
+					<h1 ng-model="temp.currentShoeBox.title" contenteditable="true"></h1>
+					<!-- <input type="text" class="form-control" ng-model="temp.currentShoeBox.title" placeholder="Title"> -->
+				</div>
+				<div class="tape">
+					<div class="form-group">
+						<label>Description</label>
+						<textarea class="form-control" ng-model="temp.currentShoeBox.description" placeholder="box description"></textarea>
+					</div>
+					<div class="form-group">
+						<label>Location</label>
+						<textarea class="form-control" ng-model="temp.currentShoeBox.location" placeholder="box location"></textarea>
+					</div>
+				</div>
+
+				<div id="itemlist" ng-controller="ShoeBoxItemCtrl">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="item in myItems.results | orderBy:'title'" datastore="item" identifier="{{myItems.identifier}}" title="Date Modified: {{item.updatedAt}}">
+								<td contenteditable="true" ng-model="item.title">{{item.title}}</td>
+								<td contenteditable="true" ng-model="item.description">{{item.description}}</td>
+								<td class="btns">
+									<button class="btn btn-xs btn-danger removeBtn pull-right" ng-click="tools.remove(item)">Remove</button>
+									<button class="btn btn-xs btn-info putBackBtn pull-right" ng-click="item.inBox = !item.inBox" ng-show="!item.inBox">Put Back</button>
+									<button class="btn btn-xs btn-success saveBtn pull-right" ng-click="tools.item.save(item)">Sync</button>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3"><button class="btn btn-success btn-block" ng-click="tools.create()">Create New Item</button></td>
+							</tr>
+						</tbody>
+					</table>
+					<div ng-include="'partials/item/removeModal.html'"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

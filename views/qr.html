@@ -1,0 +1,45 @@
+<div id="mainContent" ng-controller="ShoeBoxCtrl" class="container shoeBox toprint" ng-init="tools.initInd()">
+	<div class="row">
+		<div class="col-md-5">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 400)}}" alt="" class="thumbnail">
+		</div>
+		<div class="col-md-7">
+			<form role="form" ng-submit="tools.shoeBox.save(temp.currentShoeBox)">
+				<div class="form-group">
+					<h2><a href="#/shoeBox/{{temp.currentShoeBox.objectId}}">{{temp.currentShoeBox.title}}</a></h2>
+				</div>
+				<hr>
+				<div class="form-group">
+					<h1>Description:</h1>
+					<p>{{temp.currentShoeBox.description}}</p>
+				</div>
+				<hr>
+				<div class="form-group">
+					<h1>Location:</h1>
+					<p>{{temp.currentShoeBox.location}}</p>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 100)}}" alt="" class="thumbnail">
+		</div>
+		<div class="col-md-2">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 100)}}" alt="" class="thumbnail">
+		</div>
+		<div class="col-md-2">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 100)}}" alt="" class="thumbnail">
+		</div>
+		<div class="col-md-2">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 100)}}" alt="" class="thumbnail">
+		</div>
+		<div class="col-md-2">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 100)}}" alt="" class="thumbnail">
+		</div>
+		<div class="col-md-2">
+			<img ng-src="{{tools.qr.create('http://shoeboxed.me/%23/shoebox/'+temp.currentShoeBox.objectId, 100)}}" alt="" class="thumbnail">
+		</div>
+	</div>
+</div>

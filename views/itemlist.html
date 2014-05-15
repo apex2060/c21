@@ -1,0 +1,77 @@
+<div id="mainContent" ng-controller="ItemListCtrl">
+	<h1>My Items</h1>
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!-- <a class="navbar-brand">My Items</a> -->
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<!-- <ul class="nav navbar-nav">
+					<li class="active"><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Action</a></li>
+							<li><a href="#">Another action</a></li>
+							<li><a href="#">Something else here</a></li>
+							<li class="divider"></li>
+							<li><a href="#">Separated link</a></li>
+							<li class="divider"></li>
+							<li><a href="#">One more separated link</a></li>
+						</ul>
+					</li>
+				</ul> -->
+				<form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search" ng-model="itemSearch.title">
+					</div>
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<!-- <li><a href="#">Link</a></li> -->
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							<span>Filter: </span>
+							<span ng-show="itemSearch.inBox==false || itemSearch.hasOwnProperty('shoeBox')">ON</span>
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a ng-click="itemSearch=''"><i class="fa fa-check" ng-show="itemSearch==''"></i> All</a></li>
+							<li><a ng-click="itemSearch.inBox=false"><i class="fa fa-check" ng-show="itemSearch.inBox==false"></i> Out Of Box</a></li>
+							<li><a ng-click="itemSearch.shoeBox=null"><i class="fa fa-check" ng-show="itemSearch.hasOwnProperty('shoeBox')"></i> Un Organized</a></li>
+						</ul>
+					</li>
+
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a ng-click="itemSort='createdAt'"><i class="fa fa-check" ng-show="itemSort=='createdAt'"></i> Date Created</a></li>
+							<li><a ng-click="itemSort='updatedAt'"><i class="fa fa-check" ng-show="itemSort=='updatedAt'"></i> Date Updated</a></li>
+							<li><a ng-click="itemSort='title'"><i class="fa fa-check" ng-show="itemSort=='title'"></i> Title</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div class="allitems cards">
+		<div class="card" ng-repeat="item in myItems.results | filter:itemSearch | orderBy:itemSort">
+			<h2 title="Created: {{item.createdAt}}   -   Updated: {{item.updatedAt}}">{{item.title}}</h2>
+			<p>{{item.description}}</p>
+			<a class="box" href="#/shoebox/{{item.shoeBox}}" title="Open ShoeBox">
+				<label>ShoeBox:</label>
+				<span>{{tools.getShoeBox(item.shoeBox).title}}</span>
+			</a>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,38 @@
+<div id="mainContent" ng-controller="ShoeBoxCtrl">
+	<h1>My Boxes</h1>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="itemlist" class="well">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Open</th>
+							<th>Title</th>
+							<th>Description</th>
+							<th>Location</th>
+							<th>Owner</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="shoeBox in myShoeBoxes.results | orderBy:'title'" datastore="shoeBox" identifier="{{myShoeBoxes.identifier}}" 
+							title="Date Modified: {{shoeBox.updatedAt}}">
+							<td><a href="#/shoebox/{{shoeBox.objectId}}" class="btn btn-xs btn-info">Open</a></td>
+							<td contenteditable="true" ng-model="shoeBox.title">{{shoeBox.title}}</td>
+							<td contenteditable="true" ng-model="shoeBox.description">{{shoeBox.description}}</td>
+							<td contenteditable="true" ng-model="shoeBox.location">{{shoeBox.location}}</td>
+							<td contenteditable="true" ng-model="shoeBox.owner">{{shoeBox.owner}}</td>
+							<td class="btns">
+								<button class="btn btn-xs btn-success saveBtn" ng-click="tools.shoeBox.save(shoeBox)">Sync</button>
+								<button class="btn btn-xs btn-danger" ng-click="tools.shoeBox.remove(shoeBox)">Delete</button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="6"><button class="btn btn-success btn-block" ng-click="tools.create()">Create New Box</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,18 @@
+<div class="modal fade" id="itemRemoveModal">
+	<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">Remove {{temp.currentItem.title}}</h4>
+				</div>
+				<div class="modal-body">
+					<a class="btn btn-info btn-block" ng-click="tools.remove(temp.currentItem,'temp')">Temporarily Remove From Box</a>
+					<a class="btn btn-warning btn-block" ng-click="tools.remove(temp.currentItem,'fromBox')">Perminetly Remove From Box</a>
+					<a class="btn btn-danger btn-block" ng-click="tools.remove(temp.currentItem,'permanent')">Perminetly Delete</a>
+				</div>
+				<div class="modal-footer">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
