@@ -46,17 +46,22 @@ header .account{
 }
 header .account .username {
 	padding: 12px;
-	margin: 0px 10px;
+	margin: 0px 5px;
 	vertical-align: top;
 	background: #C0C0C0;
 	color: #FFF;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
-header .account .logout {
+/*header .account .logout {
 	font-size: 20px;
 	vertical-align: top;
 	color: #FFF;
+}*/
+header .account .icon{
+	padding: 2px 4px;
+	background: #999;
+	border-radius: 3px;
 }
 header nav{
     display: inline-block;
@@ -150,6 +155,7 @@ aside h1{
 	position: relative;
 	background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png');
 	background-color: #666;
+	text-transform: capitalize;
 }
 section{
 	display: -webkit-box;

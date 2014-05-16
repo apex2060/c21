@@ -34,7 +34,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			$rootScope.temp=	{};
 			$rootScope.side=	{};
 			$rootScope.mode=	'normal';
-			tools.side('left','partials/shoeboxlist/sidebar.html')
+			tools.side('left','partials/sidebar.html')
 			// tools.side('right','partials/sidebar.html')
 		}
 	}
