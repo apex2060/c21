@@ -1,0 +1,12 @@
+<div id="mainContent" ng-controller="CallCtrl">
+	<h1>Calls</h1>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="well">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="call in calls">{{call.number}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
