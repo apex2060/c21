@@ -1,4 +1,4 @@
-application: c21-ponderosa
+application: century21-ponderosa
 version: 1
 runtime: php
 api_version: 1
@@ -9,11 +9,15 @@ handlers:
   static_files: \1
   upload: .*\.html
 
+
 - url: /app
   static_dir: app
 
 - url: /assets
   static_dir: assets
+
+- url: /assets/css
+  static_dir: assets/css
 
 - url: /partials
   static_dir: partials
