@@ -1,11 +1,11 @@
 app.factory('config', function ($rootScope, $http) {
 	var config = {
-		fireRoot: 			'https://century21.firebaseio.com/',
-		fireRef: 			new Firebase('https://century21.firebaseio.com/'),
+		fireRoot: 			'https://c21.firebaseio.com/',
+		fireRef: 			new Firebase('https://c21.firebaseio.com/'),
 		parseRoot: 			'https://api.parse.com/1/',
-	 	parseAppId: 		'fjNPy7AsQcDEz9woamj15jrgs9xWMOQP0TiNF0V0',
-	 	parseJsKey: 		'JdU2uRrOYZjdWBOYBvQoUENJhEIzNc60BoLh62O3',
-	 	parseRestApiKey: 	'q6xFyspsTblr7qltEFr6Pb5NHaaXarZz29Tf4BYk',
+	 	parseAppId: 		'ETt2DVlnzRdWvoVU1aBEM0V3ghRS9OJVk2Hk5VSL',
+	 	parseJsKey: 		'YOUSUJIxB4r9ussJUrZxddnL2oMFHTxaFZvrXsDO',
+	 	parseRestApiKey: 	'vEvnR29UIBtbpHFJ79zzFUw531BkGFfPq5xajdGu',
 	 	roles: 				['Admin','Broker','Agent','Editor']
 	};
 
