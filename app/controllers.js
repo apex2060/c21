@@ -61,24 +61,40 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 
 
 
-var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, config, dataService){
+var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, config, dataService, userService){
 	var callListDefer = $q.defer();
 	userService.user().then(function(user){
-		var calls = new dataService.resource('calls', user.objectId+'/calls', true, true);
+		var calls = new dataService.resource('Calls', 'callList', true, true);
+		// var calls = new dataService.resource('Calls', user.objectId+'/calls', true, true);
 			// calls.setQuery('where={"shoeBox":"'+$rootScope.id+'"}');
 		callListDefer.resolve(calls);
 		calls.item.list().then(function(data){
-			$scope.calls = data;
+			$scope.calls = data.results;
 		})
 		$rootScope.$on(calls.listenId, function(event, data){
-			$scope.calls = data;
+			$scope.calls = data.results;
 		})
 	});
 	var callListPromise = callListDefer.promise;
 
 	var tools = {
-		focusCall:function(callId){
-			
+		focus:function(call){
+			$rootScope.temp.current = call;
+		},
+		getAgent:function(agentId){
+			var agents = [
+				'Russell Crosby',
+				'Becky Crosby',
+				'Brandi Snider',
+				'Brenda Ciminski'
+			]
+			return agents[agentId];
+		},
+		status: function(call){
+			if(call.params.CallStatus != 'complete')
+				return 'Active'
+			else
+				return 'Old Call'
 		}
 	}
 

@@ -472,6 +472,14 @@ img.grayscale {
 }
 
 /*OVERRIDES*/
+.ringing{
+	background: #0E0;
+	color: #000;
+}
+.completed{
+	background: #040;
+	color: #FFF;
+}
 a{
 	cursor: pointer;
 }

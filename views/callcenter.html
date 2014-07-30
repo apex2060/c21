@@ -4,8 +4,29 @@
 		<div class="col-md-6">
 			<div class="well">
 				<ul class="list-group">
-					<li class="list-group-item" ng-repeat="call in calls">{{call.number}}</li>
+					<li class="list-group-item {{call.params.CallStatus}}" ng-repeat="call in calls" title="{{tools.status(call)}}" ng-click="tools.focus(call)">{{call.params.From}}</li>
 				</ul>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="well" ng-show="temp.current">
+				<h1>Call From: {{temp.current.params.From}}</h1>
+				<!-- {{temp.current.params}} -->
+				<form action="" method="POST" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
+						<div class="col-sm-10">
+							<input type="text" name="" id="callerName" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="noteInput" class="col-sm-2 control-label">Notes</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="noteInput" placeholder="Notes"></textarea>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Save</button>
+				</form>
 			</div>
 		</div>
 	</div>
