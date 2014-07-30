@@ -83,7 +83,8 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			$scope.clients = data.results;
 		})
 		$rootScope.$on(clients.listenId, function(event, data){
-			$scope.clients = data.results;
+			if(data)
+				$scope.clients = data.results;
 		})
 	});
 	var clientListPromise = clientListDefer.promise;
@@ -102,8 +103,10 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			tools.formatAll($scope.calls);
 		})
 		$rootScope.$on(calls.listenId, function(event, data){
-			$scope.calls = data.results;
-			tools.formatAll($scope.calls);
+			if(data){
+				$scope.calls = data.results;
+				tools.formatAll($scope.calls);
+			}
 		})
 	});
 	var callListPromise = callListDefer.promise;
@@ -117,7 +120,8 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 					else{
 						if(call.direction == 'inbound')
 							$rootScope.temp.client = {
-								phone: call.from
+								phone: call.from,
+								name: call.name
 							}
 						else
 							$rootScope.temp.client = {
@@ -130,7 +134,6 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 				clientListPromise.then(function(clientResource){
 					clientResource.item.save(client).then(function(response){
 						tools.formatAll($scope.calls);
-						alert('Client Saved.');
 					});
 				})
 			},
