@@ -21,7 +21,9 @@ app.factory('config', function ($rootScope, $http) {
 
 app.factory('settings', function ($rootScope) {
 	var settings = {
-		
+			
 	};
 	return settings;
 });
+
+//Migrate to prod
