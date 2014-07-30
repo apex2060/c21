@@ -129,6 +129,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			add: function(client){
 				clientListPromise.then(function(clientResource){
 					clientResource.item.save(client).then(function(response){
+						tools.formatAll($scope.calls);
 						alert('Client Saved.');
 					});
 				})
