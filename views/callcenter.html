@@ -1,31 +1,83 @@
 <div id="mainContent" ng-controller="CallCtrl">
 	<h1>Calls</h1>
-	<div class="row">
-		<div class="col-md-6">
+	<div class="row" ng-hide="temp.current">
+		<div class="col-md-3">
 			<div class="well">
 				<ul class="list-group">
-					<li class="list-group-item {{call.params.CallStatus}}" ng-repeat="call in calls" title="{{tools.status(call)}}" ng-click="tools.focus(call)">{{call.params.From}}</li>
+					<li class="list-group-item" ng-click="tools.call('9284368433')">Place A Call</li>
+					<li class="list-group-item">Do Not Disturb</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="well">
+				<ul class="list-group">
+					<li class="list-group-item {{call.status}}" ng-repeat="call in calls | orderBy:'updatedAt':true" title="{{tools.status(call)}}" ng-click="tools.focus(call)">{{tools.display(call)}}</li>
 				</ul>
 			</div>
 		</div>
 		<div class="col-md-6">
-			<div class="well" ng-show="temp.current">
-				<h1>Call From: {{temp.current.params.From}}</h1>
-				<!-- {{temp.current.params}} -->
-				<form action="" method="POST" class="form-horizontal" role="form">
+			<div class="well" ng-show="temp.call">
+				<h1 ng-show="temp.call.direction=='inbound'">Call From: {{temp.call.from}}</h1>
+				<h1 ng-show="temp.call.direction=='outbound'">Call To: {{temp.call.to}}</h1>
+				<h2>Made: {{tools.time(temp.call)}}</h2>
+				<form action="" method="POST" class="form-horizontal" role="form" ng-submit="tools.client.add(temp.client)">
 					<div class="form-group">
 						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
 						<div class="col-sm-10">
-							<input type="text" name="" id="callerName" class="form-control">
+							<input type="text" name="" id="callerName" class="form-control" ng-model="temp.client.name">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="noteInput" class="col-sm-2 control-label">Notes</label>
 						<div class="col-sm-10">
-							<textarea class="form-control" id="noteInput" placeholder="Notes"></textarea>
+							<textarea class="form-control" id="noteInput" placeholder="Notes" ng-model="temp.client.note"></textarea>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Save</button>
+					<button type="button" class="btn btn-success pull-right" ng-click="tools.call(temp.call.from)" ng-show="temp.call.direction=='inbound'">Call Client</button>
+					<button type="button" class="btn btn-success pull-right" ng-click="tools.call(temp.call.to)" ng-show="temp.call.direction=='outbound'">Call Client</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-show="temp.current">
+		<div class="col-md-6">
+			<div class="well">
+				<h1>Call From: {{temp.current.from}}</h1>
+				<h2>Made: {{tools.time(temp.current)}}</h2>
+				<hr>
+				<h2>Forward Call</h2>
+				<button type="submit" class="btn btn-primary">Russell</button>
+				<button type="submit" class="btn btn-primary">Becky</button>
+				<button type="submit" class="btn btn-primary">Brandee</button>
+				<button type="submit" class="btn btn-primary">Brenda</button>
+				<button type="submit" class="btn btn-primary">Sherry</button>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="well">
+				<form action="" method="POST" class="form-horizontal" role="form" ng-submit="tools.client.add(temp.client)">
+					<div class="form-group">
+						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
+						<div class="col-sm-10">
+							<input type="text" name="" id="callerName" class="form-control" ng-model="temp.client.name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="mlsId" class="col-sm-2 control-label">MLS ID</label>
+						<div class="col-sm-10">
+							<input type="text" name="" id="mlsId" class="form-control" ng-model="temp.client.mls">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="noteInput" class="col-sm-2 control-label">Notes</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="noteInput" placeholder="Notes" ng-model="temp.client.note"></textarea>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-primary">Save</button>
+					<!-- {{temp.client}} -->
 				</form>
 			</div>
 		</div>

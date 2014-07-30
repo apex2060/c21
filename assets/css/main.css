@@ -153,7 +153,7 @@ aside h1{
 	font-family: inherit;
 	text-align: center;
 	position: relative;
-	background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png');
+	/*background: url('http://html5up.net/uploads/demos/striped/css/images/bg1.png');*/
 	background-color: #666;
 	text-transform: capitalize;
 }
