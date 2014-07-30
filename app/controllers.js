@@ -63,6 +63,16 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 
 
 var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http, config, dataService, userService){
+	var directory = new dataService.resource('Directory', 'directory', true, true);
+		directory.setQuery('include=agent');
+	directory.item.list().then(function(data){
+		$scope.directory = data.results;
+	})
+	$rootScope.$on(directory.listenId, function(event, data){
+		if(data)
+			$scope.directory = data.results;
+	})
+
 	var clientListDefer = $q.defer();
 	userService.user().then(function(user){
 		var clients = new dataService.resource('Clients', 'clientList', true, true);
@@ -198,7 +208,31 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 				return moment(call.updatedAt).fromNow();
 		},
 		call: function(number){
-			$http.post(config.parseRoot+'functions/call', {to: number})
+			if(!number)
+				number = prompt('Please enter then number you would like to call.');
+			if(number && number.length > 7){
+				$http.post(config.parseRoot+'functions/call', {to: number})
+				.success(function(response){
+					console.log('Success response: ', response)
+				})
+				.error(function(response){
+					console.log('Error response: ', response)
+				})
+			}else{
+				alert('The number you entered had an error in it.')
+			}
+		},
+		takeFloor: function(){
+			$http.post(config.parseRoot+'functions/takeFloor', {})
+			.success(function(response){
+				console.log('Success response: ', response)
+			})
+			.error(function(response){
+				console.log('Error response: ', response)
+			})
+		},
+		redirect: function(call, newNumber){
+			$http.post(config.parseRoot+'functions/redirect', {sid:call.sid, to:newNumber})
 			.success(function(response){
 				console.log('Success response: ', response)
 			})

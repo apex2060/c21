@@ -4,8 +4,9 @@
 		<div class="col-md-3">
 			<div class="well">
 				<ul class="list-group">
-					<li class="list-group-item" ng-click="tools.call('9284368433')">Place A Call</li>
-					<li class="list-group-item">Do Not Disturb</li>
+					<li class="list-group-item" ng-click="tools.call()">Place A Call</li>
+					<li class="list-group-item" ng-click="tools.takeFloor()">Take Floor</li>
+					<!-- <li class="list-group-item">Do Not Disturb</li> -->
 				</ul>
 			</div>
 		</div>
@@ -48,11 +49,10 @@
 				<h2>Made: {{tools.time(temp.current)}}</h2>
 				<hr>
 				<h2>Forward Call</h2>
-				<button type="submit" class="btn btn-primary">Russell</button>
-				<button type="submit" class="btn btn-primary">Becky</button>
-				<button type="submit" class="btn btn-primary">Brandee</button>
-				<button type="submit" class="btn btn-primary">Brenda</button>
-				<button type="submit" class="btn btn-primary">Sherry</button>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="entry in directory" 
+						ng-click="tools.redirect(temp.current, entry.agent.phone)">{{entry.agent.firstName}}</li>
+				</ul>
 			</div>
 		</div>
 		<div class="col-md-6">
