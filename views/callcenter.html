@@ -26,12 +26,15 @@
 				<h1 title="To: {{temp.call.agent.firstName}} -- Specified: {{!temp.call.fromFloor}}">Call From: {{temp.call.from}}</h1>
 				<h2>Made: {{tools.time(temp.call)}}</h2>
 				<p>CID: {{temp.call.params.CallerName}}</p>
-				<p>Duration: {{temp.call.params.CallDuration}} seconds</p>
+				<p ng-show="temp.call.duration">Duration: {{temp.call.params.CallDuration}} seconds</p>
 				<div ng-show="!temp.call.duration">
 					<h2>Forward Call</h2>
 					<ul class="list-group">
 						<li class="list-group-item" ng-repeat="entry in directory" 
-							ng-click="tools.redirect(temp.current, entry.agent.phone)">{{entry.agent.firstName}}</li>
+							ng-click="tools.redirect(temp.call, entry.agent.phone)">
+							<span>{{entry.agent.firstName}}</span>
+							<i class="fa fa-check pull-right" ng-show="temp.call.agent.objectId == entry.agent.objectId"></i>
+						</li>
 					</ul>
 				</div>
 				<hr>

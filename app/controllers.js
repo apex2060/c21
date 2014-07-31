@@ -168,7 +168,12 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			add: function(client){
 				clientListPromise.then(function(clientResource){
 					clientResource.item.save(client).then(function(response){
-						tools.formatAll($rootScope.calls);
+						$rootScope.$on(clientResource.listenId, function(event, data){
+							clientResource.item.list().then(function(data){
+								console.log('add new list', data)
+								tools.formatAll($rootScope.calls);
+							});
+						})
 					});
 				})
 			},
@@ -194,7 +199,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			}
 		},
 		formatAll:function(calls){
-			$rootScope.temp.current = false;
+			// $rootScope.temp.current = false;
 			for(var i=0; i<calls.length; i++){
 				tools.format(calls[i]);
 			}
@@ -206,7 +211,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 				else 
 					call.info = false;
 				if(call.direction == 'inbound' && call.status != 'completed'){
-					$rootScope.temp.current = call;
+					// $rootScope.temp.current = call;
 					tools.client.init(call);
 				}
 			})
