@@ -318,6 +318,23 @@ app.factory('qrService', function () {
 
 
 
+app.factory('siteSettings', function($rootScope, dataService){
+	var siteSettings = [];
+	var settings = new dataService.resource('Settings', 'settings', true, true);
+		settings.setQuery('include=agent');
+	settings.item.list().then(function(data){
+		siteSettings = data.results;
+	})
+	$rootScope.$on(settings.listenId, function(event, data){
+		if(data)
+			siteSettings = data.results;
+	})
+	return function(key){
+		for(var i=0; i<siteSettings.length; i++)
+			if(siteSettings[i].key==key)
+				return siteSettings[i];
+	}
+});
 
 
 

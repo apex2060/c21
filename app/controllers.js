@@ -11,10 +11,18 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 		});
 	}
 
+	
 	var tools = {
 		user: userService,
+		logout: function(){
+			tools.user.logout();
+			tools.setup();
+		},
 		url:function(){
-			return 'views/'+$routeParams.view+'.html';
+			if($rootScope.user)
+				return 'views/'+$routeParams.view+'.html';
+			else
+				return 'views/auth.html';
 		},
 		side:function(side, url){
 			if(url)
@@ -62,7 +70,7 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 
 
 
-var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http, config, dataService, userService){
+var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http, config, dataService, userService, siteSettings){
 	var directory = new dataService.resource('Directory', 'directory', true, true);
 		directory.setQuery('include=agent');
 	directory.item.list().then(function(data){
@@ -111,6 +119,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 	var callListPromise = callListDefer.promise;
 
 	var tools = {
+		siteSettings: siteSettings,
 		client:{
 			init: function(call){
 				tools.client.get(call).then(function(client){

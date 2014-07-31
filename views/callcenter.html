@@ -4,7 +4,10 @@
 		<div class="col-md-3">
 			<div class="well">
 				<ul class="list-group">
-					<li class="list-group-item" ng-click="tools.takeFloor()">Take The Floor</li>
+					<li class="list-group-item">
+						Floor: {{tools.siteSettings('floorAgent').agent.firstName}} 
+						<button type="button" class="btn btn-info btn-xs pull-right" ng-click="tools.takeFloor()">Take</button>
+					</li>
 					<!-- <li class="list-group-item" ng-click="tools.call()">Place A Call</li> -->
 					<li class="list-group-item"><a target="_new" href="https://www.hellofax.com/fax">Fax: 1928-366-5978</a></li>
 					<!-- <li class="list-group-item">Do Not Disturb</li> -->
@@ -23,8 +26,8 @@
 				<h1 ng-show="temp.call.direction=='inbound'">Call From: {{temp.call.from}}</h1>
 				<h1 ng-show="temp.call.direction=='outbound'">Call To: {{temp.call.to}}</h1>
 				<h2>Made: {{tools.time(temp.call)}}</h2>
-				<p>{{temp.call.params.CallerName}}</p>
-				<p>{{temp.call.params.CallDuration}}</p>
+				<p>CID: {{temp.call.params.CallerName}}</p>
+				<p>Duration: {{temp.call.params.CallDuration}} seconds</p>
 				<hr>
 				<form action="" method="POST" class="form-horizontal" role="form" ng-submit="tools.client.add(temp.client)">
 					<div class="form-group">
@@ -39,9 +42,9 @@
 							<textarea class="form-control" id="noteInput" placeholder="Notes" ng-model="temp.client.note"></textarea>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
-					<button type="button" class="btn btn-success pull-right" ng-click="tools.call(temp.call.from)" ng-show="temp.call.direction=='inbound'">Call Client</button>
-					<button type="button" class="btn btn-success pull-right" ng-click="tools.call(temp.call.to)" ng-show="temp.call.direction=='outbound'">Call Client</button>
+					<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.from)" ng-show="temp.call.direction=='inbound'">Call Client</button>
+					<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.to)" ng-show="temp.call.direction=='outbound'">Call Client</button>
+					<button type="submit" class="btn btn-primary pull-right">Save</button>
 				</form>
 			</div>
 		</div>
