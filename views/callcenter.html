@@ -23,6 +23,8 @@
 				<h1 ng-show="temp.call.direction=='inbound'">Call From: {{temp.call.from}}</h1>
 				<h1 ng-show="temp.call.direction=='outbound'">Call To: {{temp.call.to}}</h1>
 				<h2>Made: {{tools.time(temp.call)}}</h2>
+				<p>{{temp.call.params.CallerName}}</p>
+				<hr>
 				<form action="" method="POST" class="form-horizontal" role="form" ng-submit="tools.client.add(temp.client)">
 					<div class="form-group">
 						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
