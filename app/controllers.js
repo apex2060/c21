@@ -84,8 +84,6 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 	var clientListDefer = $q.defer();
 	userService.user().then(function(user){
 		var clients = new dataService.resource('Clients', 'clientList', true, true);
-		// var clients = new dataService.resource('clients', user.objectId+'/clients', true, true);
-			// clients.setQuery('where={"shoeBox":"'+$rootScope.id+'"}');
 		clientListDefer.resolve(clients);
 		clients.item.list().then(function(data){
 			$scope.clients = data.results;
@@ -100,9 +98,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 
 	var callListDefer = $q.defer();
 	userService.user().then(function(user){
-		var calls = new dataService.resource('Calls', 'callList', true, true);
-		// var calls = new dataService.resource('Calls', user.objectId+'/calls', true, true);
-			// calls.setQuery('where={"shoeBox":"'+$rootScope.id+'"}');
+		var calls = new dataService.resource('Calls', 'callList', false, true);
 			calls.setQuery('order=-updatedAt&limit=10');
 		callListDefer.resolve(calls);
 		calls.item.list().then(function(data){
