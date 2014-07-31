@@ -98,7 +98,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 
 	var callListDefer = $q.defer();
 	userService.user().then(function(user){
-		var calls = new dataService.resource('Calls', 'callList', false, true);
+		var calls = new dataService.resource('Calls', 'callList', true, true);
 			calls.setQuery('order=-updatedAt&limit=10');
 		callListDefer.resolve(calls);
 		calls.item.list().then(function(data){
