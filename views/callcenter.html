@@ -1,6 +1,6 @@
 <div id="mainContent" ng-controller="CallCtrl">
 	<h1>Calls</h1>
-	<div class="row" ng-hide="temp.current">
+	<div class="row">
 		<div class="col-md-3">
 			<div class="well">
 				<ul class="list-group">
@@ -9,7 +9,7 @@
 						<button type="button" class="btn btn-info btn-xs pull-right" ng-click="tools.takeFloor()">Take</button>
 					</li>
 					<!-- <li class="list-group-item" ng-click="tools.call()">Place A Call</li> -->
-					<li class="list-group-item"><a target="_new" href="https://www.hellofax.com/fax">Fax: 1928-366-5978</a></li>
+					<!-- <li class="list-group-item"><a target="_new" href="https://www.hellofax.com/fax">Fax: 1928-366-5978</a></li> -->
 					<!-- <li class="list-group-item">Do Not Disturb</li> -->
 				</ul>
 			</div>
@@ -23,69 +23,49 @@
 		</div>
 		<div class="col-md-6">
 			<div class="well" ng-show="temp.call">
-				<h1 ng-show="temp.call.direction=='inbound'">Call From: {{temp.call.from}}</h1>
-				<h1 ng-show="temp.call.direction=='outbound'">Call To: {{temp.call.to}}</h1>
+				<h1 title="To: {{temp.call.agent.firstName}} -- Specified: {{!temp.call.fromFloor}}">Call From: {{temp.call.from}}</h1>
 				<h2>Made: {{tools.time(temp.call)}}</h2>
 				<p>CID: {{temp.call.params.CallerName}}</p>
 				<p>Duration: {{temp.call.params.CallDuration}} seconds</p>
+				<div ng-show="!temp.call.duration">
+					<h2>Forward Call</h2>
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="entry in directory" 
+							ng-click="tools.redirect(temp.current, entry.agent.phone)">{{entry.agent.firstName}}</li>
+					</ul>
+				</div>
 				<hr>
-				<form action="" method="POST" class="form-horizontal" role="form" ng-submit="tools.client.add(temp.client)">
+				<form action="" method="POST" class="form-horizontal clearfix" role="form" ng-submit="tools.client.add(temp.client)">
 					<div class="form-group">
 						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
 						<div class="col-sm-10">
 							<input type="text" name="" id="callerName" class="form-control" ng-model="temp.client.name">
 						</div>
 					</div>
-					<div class="form-group">
-						<label for="noteInput" class="col-sm-2 control-label">Notes</label>
-						<div class="col-sm-10">
-							<textarea class="form-control" id="noteInput" placeholder="Notes" ng-model="temp.client.note"></textarea>
-						</div>
-					</div>
-					<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.from)" ng-show="temp.call.direction=='inbound'">Call Client</button>
-					<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.to)" ng-show="temp.call.direction=='outbound'">Call Client</button>
+			<!-- 		<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.from)" ng-show="temp.call.direction=='inbound'">Call Client</button>
+					<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.to)" ng-show="temp.call.direction=='outbound'">Call Client</button> -->
 					<button type="submit" class="btn btn-primary pull-right">Save</button>
 				</form>
-			</div>
-		</div>
-	</div>
-	<div class="row" ng-show="temp.current">
-		<div class="col-md-6">
-			<div class="well">
-				<h1>Call From: {{temp.current.from}}</h1>
-				<h2>Made: {{tools.time(temp.current)}}</h2>
 				<hr>
-				<h2>Forward Call</h2>
-				<ul class="list-group">
-					<li class="list-group-item" ng-repeat="entry in directory" 
-						ng-click="tools.redirect(temp.current, entry.agent.phone)">{{entry.agent.firstName}}</li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="well">
-				<form action="" method="POST" class="form-horizontal" role="form" ng-submit="tools.client.add(temp.client)">
-					<div class="form-group">
-						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
-						<div class="col-sm-10">
-							<input type="text" name="" id="callerName" class="form-control" ng-model="temp.client.name">
+				<div ng-show="temp.client.objectId">
+					<form action="" method="POST" class="form-horizontal clearfix" role="form" ng-submit="tools.saveNote(temp.note)">
+						<div class="form-group">
+							<label for="noteInput" class="col-sm-2 control-label">Notes</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" id="noteInput" placeholder="Notes" ng-model="temp.note"></textarea>
+							</div>
 						</div>
+						<button type="submit" class="btn btn-primary pull-right">Add Note</button>
+					</form>
+					<hr>
+					<div ng-repeat="note in temp.clientNotes">
+						<button type="button" class="close" ng-click="tools.deleteNote(note)" title="Delete Note">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<p>{{note.text}}</p>
+						<hr>
 					</div>
-					<div class="form-group">
-						<label for="mlsId" class="col-sm-2 control-label">MLS ID</label>
-						<div class="col-sm-10">
-							<input type="text" name="" id="mlsId" class="form-control" ng-model="temp.client.mls">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="noteInput" class="col-sm-2 control-label">Notes</label>
-						<div class="col-sm-10">
-							<textarea class="form-control" id="noteInput" placeholder="Notes" ng-model="temp.client.note"></textarea>
-						</div>
-					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
-					<!-- {{temp.client}} -->
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

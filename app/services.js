@@ -272,9 +272,58 @@ app.factory('roleService', function ($rootScope, $http, $q, config) {
 
 
 
+app.factory('noteService', function ($rootScope, $q, config, dataService, userService, siteSettings) {
+	console.log('Note Service');
+	var clientNoteList = [];
+	var clientNotesDefer = $q.defer();
+	userService.user().then(function(user){
+		var clientNotes = new dataService.resource('ClientNotes', user.objectId+'/clientNotes', true, true);
+		clientNotesDefer.resolve(clientNotes);
+		clientNotes.item.list().then(function(data){
+			clientNoteList = data.results;
+		})
+		$rootScope.$on(clientNotes.listenId, function(event, data){
+			if(data)
+				clientNoteList = data.results;
+		})
+	});
+	var clientNotesPromise = clientNotesDefer.promise;
 
-
-
+	var noteService = {
+		promise: clientNotesPromise,
+		list: function(clientId){
+			var deferred = $q.defer();
+			if(typeof(clientId) != 'string')
+				clientId = clientId.objectId;
+			clientNotesPromise.then(function(clientNoteResource){
+				clientNoteResource.item.list().then(function(data){
+					var notes = data.results;
+					var clientNotes = [];
+					for(var i=0; i<notes.length; i++)
+						if(notes[i].client.objectId == clientId)
+							clientNotes.push(notes[i])
+					deferred.resolve(clientNotes);
+				});
+			});
+			return deferred.promise
+		},
+		save: function(noteText){
+			var deferred = $q.defer();
+			clientNotesPromise.then(function(clientNoteResource){
+				var note = {
+					client: dataService.parse.pointer('Clients', $rootScope.temp.client.objectId),
+					text: noteText
+				}
+				clientNoteResource.item.save(note).then(function(results){
+					deferred.resolve(results);
+				})
+			});
+			return deferred.promise
+		}
+	}
+	it.noteService = noteService;
+	return noteService;
+});
 
 
 

@@ -69,16 +69,15 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 
 
 
-
-var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http, config, dataService, userService, siteSettings){
+var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http, config, dataService, userService, noteService, siteSettings){
 	var directory = new dataService.resource('Directory', 'directory', true, true);
 		directory.setQuery('include=agent');
 	directory.item.list().then(function(data){
-		$scope.directory = data.results;
+		$rootScope.directory = data.results;
 	})
 	$rootScope.$on(directory.listenId, function(event, data){
 		if(data)
-			$scope.directory = data.results;
+			$rootScope.directory = data.results;
 	})
 
 	var clientListDefer = $q.defer();
@@ -86,11 +85,11 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 		var clients = new dataService.resource('Clients', 'clientList', true, true);
 		clientListDefer.resolve(clients);
 		clients.item.list().then(function(data){
-			$scope.clients = data.results;
+			$rootScope.clients = data.results;
 		})
 		$rootScope.$on(clients.listenId, function(event, data){
 			if(data)
-				$scope.clients = data.results;
+				$rootScope.clients = data.results;
 		})
 	});
 	var clientListPromise = clientListDefer.promise;
@@ -99,16 +98,16 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 	var callListDefer = $q.defer();
 	userService.user().then(function(user){
 		var calls = new dataService.resource('Calls', 'callList', true, true);
-			calls.setQuery('order=-updatedAt&limit=10');
+			calls.setQuery('order=-updatedAt&limit=10&include=agent');
 		callListDefer.resolve(calls);
 		calls.item.list().then(function(data){
-			$scope.calls = data.results;
-			tools.formatAll($scope.calls);
+			$rootScope.calls = data.results;
+			tools.formatAll($rootScope.calls);
 		})
 		$rootScope.$on(calls.listenId, function(event, data){
 			if(data){
-				$scope.calls = data.results;
-				tools.formatAll($scope.calls);
+				$rootScope.calls = data.results;
+				tools.formatAll($rootScope.calls);
 			}
 		})
 	});
@@ -116,12 +115,44 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 
 	var tools = {
 		siteSettings: siteSettings,
+		saveNote: function(note){
+			if($rootScope.temp.client && $rootScope.temp.client.objectId){
+				var clientId = $rootScope.temp.client.objectId;
+				noteService.save(note).then(function(results){
+					$rootScope.temp.note = '';
+					noteService.promise.then(function(clientNoteResource){
+						$rootScope.$on(clientNoteResource.listenId, function(event, data){
+							noteService.list(clientId).then(function(clientNotes){
+								$rootScope.temp.clientNotes = clientNotes;
+							})
+						})
+					});
+				})
+			}
+		},
+		deleteNote: function(note){
+			if($rootScope.temp.client && $rootScope.temp.client.objectId){
+				var clientId = $rootScope.temp.client.objectId;
+				noteService.promise.then(function(clientNoteResource){
+					clientNoteResource.item.remove(note).then(function(results){
+						$rootScope.$on(clientNoteResource.listenId, function(event, data){
+							noteService.list(clientId).then(function(clientNotes){
+								$rootScope.temp.clientNotes = clientNotes;
+							});
+						});
+					});
+				})
+			}
+		},
 		client:{
 			init: function(call){
 				tools.client.get(call).then(function(client){
-					if(client.status != 'error')
+					if(client.status != 'error'){
 						$rootScope.temp.client = client;
-					else{
+						noteService.list(client.objectId).then(function(clientNotes){
+							$rootScope.temp.clientNotes = clientNotes;
+						})
+					}else{
 						if(call.direction == 'inbound')
 							$rootScope.temp.client = {
 								phone: call.from,
@@ -137,7 +168,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			add: function(client){
 				clientListPromise.then(function(clientResource){
 					clientResource.item.save(client).then(function(response){
-						tools.formatAll($scope.calls);
+						tools.formatAll($rootScope.calls);
 					});
 				})
 			},
@@ -195,15 +226,6 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 		focus:function(call){
 			$rootScope.temp.call = call;
 			tools.client.init(call);
-		},
-		getAgent:function(agentId){
-			var agents = [
-				'Russell Crosby',
-				'Becky Crosby',
-				'Brandi Snider',
-				'Brenda Ciminski'
-			]
-			return agents[agentId];
 		},
 		status: function(call){
 			if(call.params && call.params.CallStatus != 'completed')
