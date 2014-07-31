@@ -95,8 +95,7 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 		var calls = new dataService.resource('Calls', 'callList', true, true);
 		// var calls = new dataService.resource('Calls', user.objectId+'/calls', true, true);
 			// calls.setQuery('where={"shoeBox":"'+$rootScope.id+'"}');
-			calls.setQuery('order=updatedAt');
-			calls.setQuery('limit=10');
+			calls.setQuery('order=-updatedAt&limit=10');
 		callListDefer.resolve(calls);
 		calls.item.list().then(function(data){
 			$scope.calls = data.results;
