@@ -47,7 +47,8 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 			// tools.side('right','partials/sidebar.html')
 		}
 	}
-	$scope.tools = tools;
+	$scope.tools 			= tools;
+	$rootScope.rootTools 	= tools;
 
 	if(!$rootScope.data){
 		tools.setup();
@@ -266,8 +267,8 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 				console.log('Error response: ', response)
 			})
 		},
-		redirect: function(call, newNumber){
-			$http.post(config.parseRoot+'functions/redirect', {sid:call.sid, to:newNumber})
+		redirect: function(call, agent){
+			$http.post(config.parseRoot+'functions/redirect', {sid:call.sid, toNumber:agent.phone, agentId: agent.objectId})
 			.success(function(response){
 				console.log('Success response: ', response)
 			})

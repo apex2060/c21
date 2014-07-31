@@ -17,7 +17,11 @@
 		<div class="col-md-3">
 			<div class="well">
 				<ul class="list-group">
-					<li class="list-group-item {{call.status}}" ng-repeat="call in calls | orderBy:'updatedAt':true" title="{{tools.status(call)}}" ng-click="tools.focus(call)">{{tools.display(call)}}</li>
+					<li class="list-group-item {{call.status}}" title="{{tools.status(call)}}" 
+					ng-repeat="call in calls | orderBy:'updatedAt':true" ng-click="tools.focus(call)">
+						<span>{{tools.display(call)}}</span>
+						<span ng-show="rootTools.user.is('Admin')"> -&gt; {{call.agent.firstName}}</span>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -31,7 +35,7 @@
 					<h2>Forward Call</h2>
 					<ul class="list-group">
 						<li class="list-group-item" ng-repeat="entry in directory" 
-							ng-click="tools.redirect(temp.call, entry.agent.phone)">
+							ng-click="tools.redirect(temp.call, entry.agent)">
 							<span>{{entry.agent.firstName}}</span>
 							<i class="fa fa-check pull-right" ng-show="temp.call.agent.objectId == entry.agent.objectId"></i>
 						</li>
