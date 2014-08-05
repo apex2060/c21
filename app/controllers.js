@@ -62,6 +62,42 @@ var MainCtrl = app.controller('MainCtrl', function($rootScope, $scope, $routePar
 
 
 
+var MlsCtrl = app.controller('MlsCtrl', function($rootScope, $scope, $q, $http, config, dataService, userService){
+	var listings = new dataService.resource('Listings', 'listings', true, true);
+		// listings.setQuery('include=agent');
+	listings.item.list().then(function(data){
+		$rootScope.listings = data.results;
+	})
+	$rootScope.$on(listings.listenId, function(event, data){
+		if(data)
+			$rootScope.listings = data.results;
+	})
+
+	var tools = {
+		focus:function(listing){
+			$rootScope.temp.listing = listing;
+		},
+		add:function(){
+			var listing = {
+				mls: $rootScope.temp.newMls
+			}
+			tools.save(listing);
+			$rootScope.temp.newMls = "";
+		},
+		save:function(listing){
+			listings.item.save(listing).then(function(response){
+				console.log('listing response', response)
+			})
+		}
+	}
+
+	$scope.tools = tools;
+	it.MlsCtrl=$scope;
+});
+
+
+
+
 
 
 

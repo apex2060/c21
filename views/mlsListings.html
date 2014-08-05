@@ -1,0 +1,28 @@
+<div id="mainContent" ng-controller="MlsCtrl">
+	<h1>MLS Listings</h1>
+	<div class="row">
+		<div class="col-md-3">
+			<div class="well">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="listing in listings" ng-click="tools.focus(listing)">
+						<span>MLS ID: {{listing.mls}}</span> 
+					</li>
+					<li class="list-group-item">
+						<input type="text" ng-model="temp.newMls"></input>
+						<button type="button" class="btn btn-success btn-sm" ng-click="tools.add()">Add MLS</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-md-9">
+			<div class="well">
+				<form action="" method="POST" class="form-horizontal clearfix" role="form" ng-submit="tools.save(temp.listing)">
+					<h1>{{temp.listing.mls}}</h1>
+					<input type="text" value="" placeholder="Status" ng-model="temp.listing.status">
+					<textarea ng-model="temp.listing.data"></textarea>
+					<button type="submit">Save Listing</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
