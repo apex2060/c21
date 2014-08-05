@@ -53,7 +53,8 @@
 						<label for="mlsFile" class="col-sm-2 control-label">MLS File</label>
 						<div class="col-sm-10">
 							<input type="text" name="" id="mlsFile" class="form-control" ng-model="temp.client.mls">
-							<a class="btn btn-success btn-block" target="_new" href="http://members.flexmls.com/cgi-bin/mainmenu.cgi?cmd=url+brokerload/changelisting/step1a.html&comingfrom=searchresults&prefix=00&list_nbr={{temp.client.mls}}&newbgcolor=undefined" title="Open MLS File" ng-show="temp.client.mls">MLS File: {{temp.client.mls}}</a>
+							<a class="btn btn-info" target="_new" href="http://www.co.apache.az.us/parcelsearch/ParcelSearch.aspx?q={{temp.client.name}}&tab=Tax%20Information&ty=2013" title="County Assessor Search" ng-show="temp.client.name">Assessor Lookup</a>
+							<a class="btn btn-success" target="_new" href="http://members.flexmls.com/cgi-bin/mainmenu.cgi?cmd=url+brokerload/changelisting/step1a.html&comingfrom=searchresults&prefix=00&list_nbr={{temp.client.mls}}&newbgcolor=undefined" title="Open MLS File" ng-show="temp.client.mls">MLS File: {{temp.client.mls}}</a>
 						</div>
 					</div>
 			<!-- 		<button type="button" class="btn btn-success" ng-click="tools.call(temp.call.from)" ng-show="temp.call.direction=='inbound'">Call Client</button>
