@@ -1,12 +1,25 @@
 <div id="mainContent" ng-controller="CallCtrl">
 	<h1>Calls</h1>
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<div class="well">
 				<ul class="list-group">
 					<li class="list-group-item">
-						Floor: {{tools.siteSettings('floorAgent').agent.firstName}} 
+						Floor: {{tools.siteSettings.get('floorAgent').agent.firstName}} 
 						<button type="button" class="btn btn-info btn-xs pull-right" ng-click="tools.takeFloor()">Take</button>
+					</li>
+					<li class="list-group-item">
+						<div class="btn-group">
+							<button type="button" class="btn" 
+								ng-class="tools.siteSettings.get('mainAction').value=='blitz' ? 'btn-primary' : 'btn-default-disabled'" 
+								ng-click="tools.siteSettings.set('mainAction','blitz')">Blitz</button>
+							<button type="button" class="btn" 
+								ng-class="tools.siteSettings.get('mainAction').value=='floor' ? 'btn-primary' : 'btn-default-disabled'" 
+								ng-click="tools.siteSettings.set('mainAction','floor')">Floor</button>
+							<button type="button" class="btn" 
+								ng-class="tools.siteSettings.get('mainAction').value=='menu' ? 'btn-primary' : 'btn-default-disabled'" 
+								ng-click="tools.siteSettings.set('mainAction','menu')">Menu</button>
+						</div>
 					</li>
 					<!-- <li class="list-group-item" ng-click="tools.call()">Place A Call</li> -->
 					<!-- <li class="list-group-item"><a target="_new" href="https://www.hellofax.com/fax">Fax: 1928-366-5978</a></li> -->
@@ -26,7 +39,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-5">
 			<div class="well" ng-show="temp.call">
 				<h1 title="To: {{temp.call.agent.firstName}} -- Specified: {{!temp.call.fromFloor}}">Call From: {{temp.call.from}}</h1>
 				<h2>Made: {{tools.time(temp.call)}}</h2>

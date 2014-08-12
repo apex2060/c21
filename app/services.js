@@ -378,10 +378,26 @@ app.factory('siteSettings', function($rootScope, dataService){
 		if(data)
 			siteSettings = data.results;
 	})
-	return function(key){
-		for(var i=0; i<siteSettings.length; i++)
-			if(siteSettings[i].key==key)
-				return siteSettings[i];
+	return {
+		get: function(key){
+			for(var i=0; i<siteSettings.length; i++)
+				if(siteSettings[i].key==key)
+					return siteSettings[i];
+		},
+		set: function(key, column, value){
+			if(!value){
+				value = column
+				column = 'value'
+			}
+
+			for(var i=0; i<siteSettings.length; i++)
+				if(siteSettings[i].key==key){
+					siteSettings[i][column] = value
+					settings.item.save(siteSettings[i]).then(function(results){
+						console.log('site settings saved: ',results)
+					})
+				}
+		}
 	}
 });
 

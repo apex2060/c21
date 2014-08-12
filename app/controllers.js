@@ -152,6 +152,10 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 
 	var tools = {
 		siteSettings: siteSettings,
+		setSetting: function(){
+			console.log(siteSettings)
+			it.ss = siteSettings;
+		},
 		saveNote: function(note){
 			if($rootScope.temp.client && $rootScope.temp.client.objectId){
 				var clientId = $rootScope.temp.client.objectId;
