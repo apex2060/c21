@@ -480,6 +480,13 @@ img.grayscale {
 	background: #040;
 	color: #FFF;
 }
+.outbound{
+	border-right: 5px solid orange;
+}
+.inbound{
+	border-left: 5px solid #09F;
+}
+
 a{
 	cursor: pointer;
 }

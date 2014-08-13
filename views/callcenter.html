@@ -1,37 +1,10 @@
-<div id="mainContent" ng-controller="CallCtrl">
+<div id="mainContent" ng-controller="CallCtrl" ng-init="tools.init()">
 	<h1>Calls</h1>
 	<div class="row">
-		<div class="col-md-4">
-			<div class="well">
-				<ul class="list-group">
-					<li class="list-group-item">
-						Floor: {{tools.siteSettings.get('floorAgent').agent.firstName}} 
-						<button type="button" class="btn btn-info btn-xs pull-right" ng-click="tools.takeFloor()">Take</button>
-					</li>
-					<li class="list-group-item">
-						<div class="btn-group">
-							<button type="button" class="btn" 
-								ng-class="tools.siteSettings.get('mainAction').value=='blitz' ? 'btn-primary' : 'btn-default-disabled'" 
-								ng-click="tools.siteSettings.set('mainAction','blitz')">Blitz</button>
-							<button type="button" class="btn" 
-								ng-class="tools.siteSettings.get('mainAction').value=='floor' ? 'btn-primary' : 'btn-default-disabled'" 
-								ng-click="tools.siteSettings.set('mainAction','floor')">Floor</button>
-							<button type="button" class="btn" 
-								ng-class="tools.siteSettings.get('mainAction').value=='menu' ? 'btn-primary' : 'btn-default-disabled'" 
-								ng-click="tools.siteSettings.set('mainAction','menu')">Menu</button>
-						</div>
-					</li>
-					<!-- <li class="list-group-item" ng-click="tools.call()">Place A Call</li> -->
-					<!-- <li class="list-group-item"><a target="_new" href="https://www.hellofax.com/fax">Fax: 1928-366-5978</a></li> -->
-					<li class="list-group-item">Phone: 4242-75-2121</li>
-					<!-- <li class="list-group-item">Do Not Disturb</li> -->
-				</ul>
-			</div>
-		</div>
 		<div class="col-md-3">
 			<div class="well">
 				<ul class="list-group">
-					<li class="list-group-item {{call.status}}" title="{{tools.time(call)}}" 
+					<li class="list-group-item {{call.status}} {{call.direction}}" title="{{call.direction}} {{tools.time(call)}}" 
 					ng-repeat="call in calls | orderBy:'updatedAt':true" ng-click="tools.focus(call)">
 						<span>{{tools.display(call)}}</span>
 						<span ng-show="rootTools.user.is('Admin')"> -&gt; {{call.agent.firstName}}</span>
@@ -39,10 +12,13 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-9">
 			<div class="well" ng-show="temp.call">
-				<h1 title="To: {{temp.call.agent.firstName}} -- Specified: {{!temp.call.fromFloor}}">Call From: {{temp.call.from}}</h1>
+				<h1 title="To: {{temp.call.agent.firstName}} -- Specified: {{!temp.call.fromFloor}}">
+					Contact: {{tools.display(temp.call)}}
+				</h1>
 				<h2>Made: {{tools.time(temp.call)}}</h2>
+				<p>Phone: {{temp.call.extNumber}}</p>
 				<p>CID: {{temp.call.params.CallerName}}</p>
 				<p ng-show="temp.call.duration">Duration: {{temp.call.params.CallDuration}} seconds</p>
 				<!-- <img src="http://photos.flexmls.com//wmar/20140703190849742161000000.jpg" alt=""> -->
@@ -55,11 +31,13 @@
 							<i class="fa fa-check pull-right" ng-show="temp.call.agent.objectId == entry.agent.objectId"></i>
 						</li>
 					</ul>
+					<!-- Save individual forwarding prefrences... -->
+					<!-- One of 3 options: Forward temporarily to agent, Forward perminately to agent, play menu -->
 				</div>
 				<hr>
 				<form action="" method="POST" class="form-horizontal clearfix" role="form" ng-submit="tools.client.add(temp.client)">
 					<div class="form-group">
-						<label for="callerName" class="col-sm-2 control-label">Caller Name</label>
+						<label for="callerName" class="col-sm-2 control-label">Contact Name</label>
 						<div class="col-sm-10">
 							<input type="text" name="" id="callerName" class="form-control" ng-model="temp.client.name">
 						</div>

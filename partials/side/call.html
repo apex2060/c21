@@ -1,0 +1,50 @@
+<!-- <h1><a>{{view}}</a></h1> -->
+<h1><a>Phone</a></h1>
+<div ng-controller="CallCtrl">
+	<ul class="list-group">
+		<!-- <li class="list-group-item"><a target="_new" href="https://www.hellofax.com/fax">Fax: 1928-366-5978</a></li> -->
+		<!-- <li class="list-group-item" ng-click="tools.call()">Make A Call</li> -->
+		<li class="list-group-item">
+			Floor: {{tools.siteSettings.get('floorAgent').agent.firstName}} 
+			<button type="button" class="btn btn-info btn-xs pull-right" ng-click="tools.takeFloor()">Take</button>
+		</li>
+		<li class="list-group-item">
+			<div class="btn-group">
+				<button type="button" class="btn" 
+				ng-class="tools.siteSettings.get('mainAction').value=='blitz' ? 'btn-primary' : 'btn-default-disabled'" 
+				ng-click="tools.siteSettings.set('mainAction','blitz')">Blitz</button>
+				<button type="button" class="btn" 
+				ng-class="tools.siteSettings.get('mainAction').value=='office' ? 'btn-primary' : 'btn-default-disabled'" 
+				ng-click="tools.siteSettings.set('mainAction','office')">Office</button>
+				<button type="button" class="btn" 
+				ng-class="tools.siteSettings.get('mainAction').value=='floor' ? 'btn-primary' : 'btn-default-disabled'" 
+				ng-click="tools.siteSettings.set('mainAction','floor')">Floor</button>
+				<button type="button" class="btn" 
+				ng-class="tools.siteSettings.get('mainAction').value=='menu' ? 'btn-primary' : 'btn-default-disabled'" 
+				ng-click="tools.siteSettings.set('mainAction','menu')">Menu</button>
+			</div>
+		</li>
+		<hr>
+		<li class="list-group-item">Phone: 4242-75-2121</li>
+		<li class="list-group-item" ng-show="!twilio.status">
+			<button type="button" class="btn btn-primary btn-block" ng-click="tools.twilio.init()">Start Phone</button>
+		</li>
+		<li class="list-group-item" ng-show="twilio.status=='connecting'">
+			<button type="button" class="btn btn-default btn-block">Connecting...</button>
+		</li>
+		<!-- <li class="list-group-item">Do Not Disturb</li> -->
+	</ul>
+	<ul class="list-group" ng-show="twilio.status=='ready'">
+		<li class="list-group-item" ng-show="twilio.callStatus=='ended'">
+			<input type="tel" class="form-control" placeholder="Number To Call" ng-model="outbound">
+			<button type="button" class="btn btn-primary btn-block" ng-click="tools.twilio.call(outbound)">Call</button>
+		</li>
+		<li class="list-group-item" ng-show="twilio.callStatus=='incoming'">
+			<button type="button" class="btn btn-primary btn-block" ng-click="tools.twilio.accept(outbound)">Answer</button>
+		</li>
+		<li class="list-group-item" ng-show="twilio.callStatus=='connected'">
+			<button type="button" class="btn btn-danger btn-block" ng-click="tools.twilio.hangup(outbound)">Hangup</button>
+		</li>
+	</ul>
+	<p>{{twilio.call}}</p>
+</div>

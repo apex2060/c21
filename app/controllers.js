@@ -152,6 +152,9 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 
 	var tools = {
 		siteSettings: siteSettings,
+		init:function(){
+			$rootScope.rootTools.side('left', 'partials/side/call.html')
+		},
 		setSetting: function(){
 			console.log(siteSettings)
 			it.ss = siteSettings;
@@ -194,15 +197,10 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 							$rootScope.temp.clientNotes = clientNotes;
 						})
 					}else{
-						if(call.direction == 'inbound')
-							$rootScope.temp.client = {
-								phone: call.from,
-								name: call.name
-							}
-						else
-							$rootScope.temp.client = {
-								phone: call.to
-							}
+						$rootScope.temp.client = {
+							phone: call.extNumber,
+							name: call.name
+						}
 					}
 				})
 			},
@@ -224,14 +222,8 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 					clientResource.item.list().then(function(data){
 						var clients = data.results;
 						for(var i=0; i<clients.length; i++){
-							if(call.direction == 'inbound'){
-								if(clients[i].phone == call.from)
-									defer.resolve(clients[i]);
-							}else{
-								if(clients[i].phone == call.to)
-									defer.resolve(clients[i]);
-							}
-
+							if(clients[i].phone == call.extNumber)
+								defer.resolve(clients[i]);
 						}
 						defer.resolve({status:'error', message:'No client found.'});
 					})
@@ -251,23 +243,18 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 					call.info = client;
 				else 
 					call.info = false;
-				if(call.direction == 'inbound' && call.status != 'completed'){
+				if(call.status != 'completed'){
 					// $rootScope.temp.current = call;
 					tools.client.init(call);
 				}
 			})
 		},
 		display:function(call){
-			if(call.direction=='inbound')
+			if(call)
 				if(call.info)
 					return call.info.name;
 				else
-					return call.from;
-			else
-				if(call.info)
-					return call.info.name;
-				else
-					return call.to;
+					return call.extNumber;
 		},
 		focus:function(call){
 			$rootScope.temp.call = call;
@@ -315,6 +302,76 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 			.error(function(response){
 				console.log('Error response: ', response)
 			})
+		},
+		twilio:{
+			token:function(){
+				return $http.post(config.parseRoot+'functions/clientKey', {})
+			},
+			init:function(){
+				$scope.twilio = {
+					status: 'connecting',
+					callStatus: 'ended',
+					connection: {},
+					presence: []
+				}
+				tools.twilio.token().success(function(response){
+					var data = response.result;
+					Twilio.Device.setup(data.token);
+
+					Twilio.Device.ready(function (device) {
+						$scope.twilio.device = device;
+						$scope.twilio.status = 'ready';
+					});
+					Twilio.Device.offline(function (device) {
+						$scope.twilio.device = device;
+						$scope.twilio.status = 'offline';
+					});
+					Twilio.Device.error(function (error) {
+						$scope.twilio.error = error;
+					});
+
+					Twilio.Device.incoming(function(connection) {
+						$scope.$apply(function(){
+							$scope.twilio.call = connection.parameters;
+							console.log(connection.parameters)
+							$scope.twilio.callStatus = 'incoming';
+							$scope.twilio.connection = connection;
+						});
+					});
+					Twilio.Device.connect(function(connection) {
+						$scope.$apply(function(){
+							$scope.twilio.call = connection.parameters;
+							console.log(connection.parameters)
+							$scope.twilio.callStatus = 'connected';
+							// $scope.twilio.connection = connection.parameters;
+						});
+					});
+					Twilio.Device.disconnect(function(connection) {
+						$scope.twilio.call = connection.parameters;
+						console.log(connection.parameters)
+						$scope.twilio.callStatus = 'ended';
+						$scope.twilio.connection = connection.parameters;
+					});
+					Twilio.Device.presence(function(presenceEvent) {
+						$scope.$apply(function(){
+							$scope.twilio.presence.push(presenceEvent)
+						});
+					});
+				})
+			},
+			accept:function(){
+				$scope.twilio.connection.accept();
+			},
+			hangup:function(){
+				Twilio.Device.disconnectAll();
+			},
+			call:function(number){
+				$scope.twilio.connection = Twilio.Device.connect({
+					"PhoneNumber": number,
+					"CallerName": $rootScope.user.fullName,
+					"AgentId": $rootScope.user.objectId
+				});
+			}
 		}
 	}
 
