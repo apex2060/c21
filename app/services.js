@@ -367,7 +367,7 @@ app.factory('qrService', function () {
 
 
 
-app.factory('siteSettings', function($rootScope, dataService){
+app.factory('siteSettings', function($rootScope, $q, dataService){
 	var siteSettings = [];
 	var settings = new dataService.resource('Settings', 'settings', true, true);
 		settings.setQuery('include=agent');
@@ -379,6 +379,13 @@ app.factory('siteSettings', function($rootScope, dataService){
 			siteSettings = data.results;
 	})
 	return {
+		init: function(){
+		  var deferred = $q.defer();
+			settings.item.list().then(function(data){
+				deferred.resolve(data);
+			})
+			return deferred.promise;
+		},
 		get: function(key){
 			for(var i=0; i<siteSettings.length; i++)
 				if(siteSettings[i].key==key)

@@ -9,20 +9,35 @@
 			<button type="button" class="btn btn-info btn-xs pull-right" ng-click="tools.takeFloor()">Take</button>
 		</li>
 		<li class="list-group-item">
-			<div class="btn-group">
-				<button type="button" class="btn" 
-				ng-class="tools.siteSettings.get('mainAction').value=='blitz' ? 'btn-primary' : 'btn-default-disabled'" 
-				ng-click="tools.siteSettings.set('mainAction','blitz')">Blitz</button>
-				<button type="button" class="btn" 
-				ng-class="tools.siteSettings.get('mainAction').value=='office' ? 'btn-primary' : 'btn-default-disabled'" 
-				ng-click="tools.siteSettings.set('mainAction','office')">Office</button>
-				<button type="button" class="btn" 
-				ng-class="tools.siteSettings.get('mainAction').value=='floor' ? 'btn-primary' : 'btn-default-disabled'" 
-				ng-click="tools.siteSettings.set('mainAction','floor')">Floor</button>
-				<button type="button" class="btn" 
-				ng-class="tools.siteSettings.get('mainAction').value=='menu' ? 'btn-primary' : 'btn-default-disabled'" 
-				ng-click="tools.siteSettings.set('mainAction','menu')">Menu</button>
+			<div class="btn-group btn-group-justified">
+				<div class="btn-group">
+					<button type="button" class="btn" title="Call all agents in directory."
+						ng-class="tools.siteSettings.get('mainAction').value=='blitz' ? 'btn-primary' : 'btn-default-disabled'" 
+						ng-click="tools.siteSettings.set('mainAction','blitz')">Blitz</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn" title="Ring direct to floor agent."
+						ng-class="tools.siteSettings.get('mainAction').value=='floor' ? 'btn-primary' : 'btn-default-disabled'" 
+						ng-click="tools.siteSettings.set('mainAction','floor')">Floor</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn"  title="Ring to a specified phone number."
+						ng-class="tools.siteSettings.get('mainAction').value=='specify' ? 'btn-primary' : 'btn-default-disabled'" 
+						ng-click="tools.siteSettings.set('mainAction','specify')">Phone</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn"  title="Play the directory and let users choose."
+						ng-class="tools.siteSettings.get('mainAction').value=='menu' ? 'btn-primary' : 'btn-default-disabled'" 
+						ng-click="tools.siteSettings.set('mainAction','menu')">Menu</button>
+				</div>
 			</div>
+				<button type="button" class="btn btn-block"  title="Ring direct to office phone."
+					ng-class="tools.siteSettings.get('mainAction').value=='office' ? 'btn-primary' : 'btn-default-disabled'" 
+					ng-click="tools.siteSettings.set('mainAction','office')">Office</button>
+		</li>
+		<li class="list-group-item" ng-show="tools.siteSettings.get('mainAction').value=='specify'">
+			<input type="tel" class="form-control" placeholder="Ring To" ng-model="temp.specifiedPhone">
+			<button type="button" class="btn btn-primary btn-block" ng-click="tools.siteSettings.set('specifiedPhone',temp.specifiedPhone)">Save</button>
 		</li>
 		<hr>
 		<li class="list-group-item">Phone: 4242-75-2121</li>

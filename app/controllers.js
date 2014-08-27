@@ -149,7 +149,9 @@ var CallCtrl = app.controller('CallCtrl', function($rootScope, $scope, $q, $http
 		})
 	});
 	var callListPromise = callListDefer.promise;
-
+	siteSettings.init().then(function(settings){
+		$rootScope.temp.specifiedPhone = siteSettings.get('specifiedPhone').value;
+	})
 	var tools = {
 		siteSettings: siteSettings,
 		init:function(){
